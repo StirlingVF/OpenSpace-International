@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Impact Assessment Platform - OpenSpace International</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">OpenSpace</h1>
+                <p class="tagline">Operator Impact Assessment</p>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-view="dashboard">
+                    <span>DASHBOARD</span>
+                </button>
+                <button class="nav-item" data-view="conjunctions">
+                    <span>CONJUNCTION ANALYSIS</span>
+                </button>
+                <button class="nav-item" data-view="calculator">
+                    <span>ECONOMIC CALCULATOR</span>
+                </button>
+                <button class="nav-item" data-view="risk-scoring">
+                    <span>RISK SCORING</span>
+                </button>
+                <button class="nav-item" data-view="decision-support">
+                    <span>DECISION SUPPORT</span>
+                </button>
+                <button class="nav-item" data-view="prioritization">
+                    <span>DEBRIS PRIORITY</span>
+                </button>
+                <button class="nav-item" data-view="analytics">
+                    <span>ANALYTICS</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard" class="view active">
+                <header class="view-header">
+                    <h2>Operator Impact Assessment Platform</h2>
+                    <p class="view-description">Quantifying the economic impact of orbital debris on satellite operations</p>
+                </header>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-label">Active Conjunctions</div>
+                            <div class="stat-value" id="stat-conjunctions">5</div>
+                            <div class="stat-change positive">+2 since yesterday</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-label">Total Economic Impact</div>
+                            <div class="stat-value" id="stat-impact">$537.4M</div>
+                            <div class="stat-change neutral">Annual estimate</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-label">Tracked Debris Objects</div>
+                            <div class="stat-value" id="stat-debris">5</div>
+                            <div class="stat-change neutral">High-risk objects</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-content">
+                            <div class="stat-label">Avg Risk Score</div>
+                            <div class="stat-value" id="stat-risk">85.2</div>
+                            <div class="stat-change negative">Critical level</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="dashboard-section">
+                        <h3>Project Overview</h3>
+                        <div class="card">
+                            <div class="card__body">
+                                <p>The <strong>OpenSpace International Operator Impact Assessment Platform</strong> provides space operators with comprehensive tools to analyze conjunction events, calculate economic impacts, and make informed decisions about collision avoidance maneuvers.</p>
+                                <p style="margin-top: var(--space-16);">This MVP demonstrates the core concepts of economic-based debris prioritization, helping operators:</p>
+                                <ul style="margin-top: var(--space-12); padding-left: var(--space-20);">
+                                    <li>Assess collision risks in real-time</li>
+                                    <li>Calculate the true economic cost of debris threats</li>
+                                    <li>Make data-driven decisions on collision avoidance</li>
+                                    <li>Identify high-priority debris for removal missions</li>
+                                    <li>Generate business cases for active debris removal</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3>Critical Conjunctions</h3>
+                        <div class="conjunction-preview-list" id="dashboard-conjunctions"></div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h3>Top Risk Debris Objects</h3>
+                        <div class="debris-preview-list" id="dashboard-debris"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conjunction Analysis View -->
+            <div id="conjunctions" class="view">
+                <header class="view-header">
+                    <h2>Conjunction Analysis</h2>
+                    <p class="view-description">Monitor and analyze active conjunction events</p>
+                </header>
+
+                <div class="filter-bar">
+                    <label class="filter-label">
+                        Filter by Risk Level:
+                        <select id="risk-filter" class="form-control" style="width: 200px; display: inline-block; margin-left: var(--space-8);">
+                            <option value="all">All Levels</option>
+                            <option value="CRITICAL">Critical</option>
+                            <option value="HIGH">High</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="LOW">Low</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="conjunctions-list" id="conjunctions-list"></div>
+            </div>
+
+            <!-- Economic Calculator View -->
+            <div id="calculator" class="view">
+                <header class="view-header">
+                    <h2>Economic Impact Calculator</h2>
+                    <p class="view-description">Calculate the economic impact of collision avoidance maneuvers</p>
+                </header>
+
+                <div class="calculator-container">
+                    <div class="calculator-form">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-20);">Satellite Parameters</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Satellite Name/ID</label>
+                                    <input type="text" id="calc-satellite-name" class="form-control" placeholder="e.g., STARLINK-1234">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Satellite Value (Million USD)</label>
+                                    <input type="number" id="calc-satellite-value" class="form-control" value="150" min="1">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Insurance Premium Rate (%)</label>
+                                    <input type="number" id="calc-insurance-rate" class="form-control" value="8" min="0" max="100" step="0.1">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Operational Revenue per Day (USD)</label>
+                                    <input type="number" id="calc-daily-revenue" class="form-control" value="50000" min="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Fuel Cost per Maneuver (USD)</label>
+                                    <input type="number" id="calc-fuel-cost" class="form-control" value="15000" min="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Expected Mission Lifetime (Years)</label>
+                                    <input type="number" id="calc-mission-lifetime" class="form-control" value="7" min="1" max="20">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Number of Maneuvers per Year</label>
+                                    <input type="number" id="calc-maneuvers-per-year" class="form-control" value="12" min="0">
+                                </div>
+
+                                <button class="btn btn--primary btn--full-width" onclick="calculateEconomicImpact()">Calculate Impact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calculator-results">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-20);">Cost Analysis Results</h3>
+                                <div id="calculator-results"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Scoring View -->
+            <div id="risk-scoring" class="view">
+                <header class="view-header">
+                    <h2>Risk Scoring System</h2>
+                    <p class="view-description">Debris objects ranked by economic risk score</p>
+                </header>
+
+                <div class="filter-bar">
+                    <label class="filter-label">
+                        Sort by:
+                        <select id="sort-debris" class="form-control" style="width: 200px; display: inline-block; margin-left: var(--space-8);">
+                            <option value="score">Risk Score (High to Low)</option>
+                            <option value="impact">Economic Impact</option>
+                            <option value="conjunctions">Annual Conjunctions</option>
+                            <option value="satellites">Threatened Satellites</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="debris-list" id="debris-list"></div>
+            </div>
+
+            <!-- Decision Support View -->
+            <div id="decision-support" class="view">
+                <header class="view-header">
+                    <h2>Decision Support Tool</h2>
+                    <p class="view-description">Analyze conjunction scenarios and compare response options</p>
+                </header>
+
+                <div class="decision-container">
+                    <div class="decision-input">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-20);">Scenario Parameters</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Select Conjunction Event</label>
+                                    <select id="decision-conjunction" class="form-control"></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Satellite Value (Million USD)</label>
+                                    <input type="number" id="decision-satellite-value" class="form-control" value="150" min="1">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Maneuver Cost (USD)</label>
+                                    <input type="number" id="decision-maneuver-cost" class="form-control" value="15000" min="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Risk Tolerance Threshold</label>
+                                    <input type="range" id="decision-risk-tolerance" class="risk-slider" min="0" max="100" value="50">
+                                    <div class="risk-tolerance-value"><span id="risk-tolerance-display">50</span>%</div>
+                                </div>
+
+                                <button class="btn btn--primary btn--full-width" onclick="analyzeDecision()">Analyze Scenario</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="decision-results">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-20);">Decision Analysis</h3>
+                                <div id="decision-results"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debris Prioritization View -->
+            <div id="prioritization" class="view">
+                <header class="view-header">
+                    <h2>Debris Prioritization Dashboard</h2>
+                    <p class="view-description">Identify high-priority debris objects for active debris removal missions</p>
+                </header>
+
+                <div class="prioritization-content">
+                    <div class="card" style="margin-bottom: var(--space-24);">
+                        <div class="card__body">
+                            <h3 style="margin-bottom: var(--space-16);">Top 10 Debris Objects by Economic Impact</h3>
+                            <div class="chart-container">
+                                <canvas id="debris-impact-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="prioritization-list" id="prioritization-list"></div>
+                </div>
+            </div>
+
+            <!-- Analytics View -->
+            <div id="analytics" class="view">
+                <header class="view-header">
+                    <h2>Analytics &amp; Reporting</h2>
+                    <p class="view-description">Comprehensive analysis and reporting tools</p>
+                </header>
+
+                <div class="analytics-content">
+                    <div class="analytics-stats-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Total Conjunctions Analyzed</h4>
+                                <div class="analytics-stat-value">10,980</div>
+                                <div class="stat-change positive">+15% vs last quarter</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Total Maneuvers Required</h4>
+                                <div class="analytics-stat-value">1,247</div>
+                                <div class="stat-change positive">+8% vs last quarter</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Total Economic Impact</h4>
+                                <div class="analytics-stat-value">$537.4M</div>
+                                <div class="stat-change negative">+22% vs last quarter</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Average Cost per Operator</h4>
+                                <div class="analytics-stat-value">$2.8M</div>
+                                <div class="stat-change positive">-3% vs last quarter</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analytics-charts">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-16);">Cost Breakdown by Category</h3>
+                                <div class="chart-container">
+                                    <canvas id="cost-breakdown-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-16);">Maneuvers Over Time</h3>
+                                <div class="chart-container">
+                                    <canvas id="maneuvers-time-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3 style="margin-bottom: var(--space-16);">Economic Impact by Orbital Region</h3>
+                                <div class="chart-container">
+                                    <canvas id="orbital-impact-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
