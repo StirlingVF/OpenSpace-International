@@ -1526,7 +1526,7 @@ body {
 
   .main-content {
     margin-left: 0;
-    padding: var(--space-12);
+    padding: var(--space-20);
   }
 
   .stats-grid {
@@ -1536,13 +1536,6 @@ body {
   .analytics-charts {
     grid-template-columns: 1fr;
   }
-  
-  .prioritization-card {
-    grid-template-columns: 1fr;
-    gap: var(--space-12);
-  }
-  
-  .sidebar-header h1 {
-    font-size: var(--font-size-xl);
+}
   }
 }
